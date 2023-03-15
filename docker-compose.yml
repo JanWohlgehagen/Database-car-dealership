@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+  app-database:
+    image: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=Voltron
+      - POSTGRES_PASSWORD=Pear1234!
+      - POSTGRES_DB=CarDealership
+    volumes:
+      - ./postgres-data/data:/var/lib/postgresql/data
+
+
+  flyway:
+    image: flyway/flyway
+    command: migrate
+    volumes:
+      - ./postgres-data:/flyway/sql
+      - ./postgres-data:/flyway.config
+    depends_on:
+      - app-database
