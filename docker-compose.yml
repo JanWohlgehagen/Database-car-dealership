@@ -2,15 +2,17 @@ version: "3.8"
 
 services:
   app-database:
-    image: mysql
+    image: postgres
     restart: always
-    volumes:
-      - ./db/data:/var/lib/mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: Pear1234!
-      MYSQL_DATABASE: CarDealership
+
     ports:
-      - 63306:3306
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=Voltron
+      - POSTGRES_PASSWORD=Pear1234!
+      - POSTGRES_DB=CarDealership
+    volumes:
+      - ./db/data:/var/lib/postgresql/data
 
 
   flyway:
