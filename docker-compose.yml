@@ -2,23 +2,22 @@ version: "3.8"
 
 services:
   app-database:
-    image: postgres
+    image: mysql
     restart: always
-    ports:
-      - 5432:5432
-    environment:
-      - POSTGRES_USER=Voltron
-      - POSTGRES_PASSWORD=Pear1234!
-      - POSTGRES_DB=CarDealership
     volumes:
-      - ./postgres-data/data:/var/lib/postgresql/data
+      - ./db/data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: Pear1234!
+      MYSQL_DATABASE: CarDealership
+    ports:
+      - 63306:3306
 
 
   flyway:
     image: flyway/flyway
     command: migrate
     volumes:
-      - ./postgres-data:/flyway/sql
-      - ./postgres-data:/flyway.config
+      - ./db:/flyway/sql
+      - ./db:/flyway/conf
     depends_on:
       - app-database
